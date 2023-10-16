@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:latest
-      options: --tty true
 
     steps:
       - name: Checkout code
