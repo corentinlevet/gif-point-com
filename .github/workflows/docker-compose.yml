@@ -1,0 +1,23 @@
+name: Docker Compose CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Compose
+        run: docker-compose up -d
+
+      - name: Build and Test
+        run: docker-compose exec react-app npm test
+
+      - name: Tear down Docker Compose
+        run: docker-compose down
