@@ -1,0 +1,68 @@
+@import "../App/App.css";
+
+#navHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  padding: 0 2rem;
+  background-color: var(--mainColor);
+  color: var(--textColor);
+}
+
+#navHeader .nav-btn {
+  padding: 5px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--textColor);
+  visibility: hidden;
+  opacity: 0;
+}
+
+#navBar a {
+  margin: 0 2rem;
+  color: var(--textColor);
+  text-decoration: none;
+}
+
+#navBar a:hover {
+  color: var(--secondaryColor);
+}
+
+@media only screen and (max-width: 1024px) {
+	#navHeader .nav-btn {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	#navHeader #navBar {
+		position: fixed;
+		top: -100vh;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		background-color: var(--mainColor);
+		transition: 1s;
+	}
+
+	#navHeader .responsive-nav {
+		transform: translateY(100vh);
+	}
+
+	#navHeader .nav-close-btn {
+		position: absolute;
+		top: 2rem;
+		right: 2rem;
+	}
+
+	#navHeader a {
+		font-size: 1.5rem;
+	}
+}
