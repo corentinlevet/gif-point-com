@@ -1,0 +1,14 @@
+# Utilisez une image Node.js pour construire l'application React
+FROM node:latest
+
+# Définissez le répertoire de travail
+WORKDIR /app
+
+# Copiez les fichiers du projet dans le conteneur
+COPY . .
+
+# Installez les dépendances
+RUN npm install
+
+# Exécutez l'application React
+CMD ["npm", "start"]

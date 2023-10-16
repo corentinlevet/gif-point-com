@@ -1,0 +1,24 @@
+version: '3'
+services:
+  react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.react
+    container_name: gpc-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    depends_on:
+      - mariadb
+
+  mariadb:
+    build:
+      context: .
+      dockerfile: Dockerfile.mariadb
+    container_name: gpc-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
