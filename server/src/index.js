@@ -12,7 +12,7 @@ const dbConfig = {
   port: 3306
 };
 
-function launchServer() {
+function launchServer(db) {
   app.get('/', (req, res) => {
     res.send('Bienvenue sur ma première application Express !');
   });
@@ -58,7 +58,7 @@ function connectToDatabase() {
     } else {
       console.log('Connexion à la base de données réussie');
 
-      launchServer();
+      launchServer(db);
     }
   });
 }
