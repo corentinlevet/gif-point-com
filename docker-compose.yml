@@ -3,19 +3,32 @@ services:
   react-app:
     build:
       context: .
-      dockerfile: Dockerfile.react
+      dockerfile: ./docker/Dockerfile.react
     container_name: gpc-app
     ports:
       - "3000:3000"
     volumes:
-      - .:/app
+      - ./app:/app
+    depends_on:
+      - mariadb
+      - express-api
+
+  express-api:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.express
+    container_name: gpc-server
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./server:/app
     depends_on:
       - mariadb
 
   mariadb:
     build:
       context: .
-      dockerfile: Dockerfile.mariadb
+      dockerfile: ./docker/Dockerfile.mariadb
     container_name: gpc-db
     ports:
       - "3306:3306"

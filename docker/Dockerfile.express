@@ -1,0 +1,14 @@
+# Utilisez une image de Node.js comme base
+FROM node:latest
+
+# Définissez le répertoire de travail dans le conteneur
+WORKDIR /app
+
+# Copiez le package.json et le package-lock.json dans le répertoire de travail
+COPY ./server .
+
+# Installez les dépendances
+RUN npm install
+
+# Commande pour exécuter l'application Express
+CMD ["node", "src/index.js"]
