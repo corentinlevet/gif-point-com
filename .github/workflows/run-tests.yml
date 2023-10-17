@@ -15,6 +15,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Go int the app directory
+        run: cd app
+
       - name: Install dependencies
         run: npm install
 
