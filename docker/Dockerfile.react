@@ -5,7 +5,7 @@ FROM node:latest
 WORKDIR /app
 
 # Copiez les fichiers du projet dans le conteneur
-COPY . .
+COPY ./app .
 
 # Installez les dépendances
 RUN npm install
