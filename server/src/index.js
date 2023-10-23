@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const port = 4000;
@@ -12,23 +13,16 @@ const dbConfig = {
   port: 3306
 };
 
+const corsOptions = {
+  origin: true,
+  credentials: true
+};
+
+app.use(cors(corsOptions));
+
 function launchServer(db) {
   app.get('/', (req, res) => {
-    res.send('Bienvenue sur ma première application Express !');
-  });
-
-  app.get('/users', (req, res) => {
-    const query = "SELECT * FROM users;";
-
-    db.query(query, function (err, result) {
-      if (err) {
-        console.error('Erreur lors de la récupération des utilisateurs : ' + err.message);
-        return res.status(500).json({ error: err.message });
-      }
-
-      console.log('Récupération des utilisateurs réussie');
-      res.status(200).json(result);
-    });
+    res.send('Application Express opérationnelle !');
   });
 
   app.listen(port, () => {
