@@ -1,13 +1,26 @@
-import Navbar from "../Navbar/Navbar";
-import Router from "../Router/Router";
+import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 
+import Login from "../Login/Login";
+import Navbar from "../Navbar/Navbar";
+import Router from "../Router/Router";
+
 function App() {
+  const [isLogged, setIsLogged] = useState(false);
+
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Router />
-    </BrowserRouter>
+    <div>
+    {
+      isLogged ? (
+        <BrowserRouter>
+          <Navbar />
+          <Router />
+        </BrowserRouter>
+      ) : (
+        <Login setIsLogged={setIsLogged} />
+      )
+    }
+    </div>
   );
 }
 
