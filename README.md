@@ -13,7 +13,6 @@ The aim of this project is to create a React application that transforms multipl
 
 ### Developers
 - Corentin Levet    (corentin.levet@epitech.eu)
-- Hugo Grisel   (hugo.grisel@epitech.eu)
 
 
 ## Requirements
