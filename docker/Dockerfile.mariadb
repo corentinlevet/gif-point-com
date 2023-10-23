@@ -1,2 +1,3 @@
-# Utilisez l'image officielle MariaDB
 FROM mariadb:latest
+
+COPY ./docker/mariadb/init.sql /docker-entrypoint-initdb.d/

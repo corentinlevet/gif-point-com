@@ -10,6 +10,10 @@ class ExpressServer {
   ping() {
     return this.api.get("/");
   }
+
+  getUsers() {
+    return this.api.get("/users");
+  }
 }
 
 const expressServer = new ExpressServer();
