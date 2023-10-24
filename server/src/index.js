@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const port = 4000;
 const mysql2 = require('mysql2');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const dbConfig = {
@@ -19,6 +20,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 function launchServer(db) {
   app.get('/', (req, res) => {
@@ -33,6 +36,32 @@ function launchServer(db) {
         res.status(500).send('Erreur lors de la récupération des utilisateurs');
       } else {
         res.json(results);
+      }
+    });
+  });
+
+  app.post('/sign-up', (req, res) => {
+    const { username, email, password } = req.body;
+
+    const query = 'SELECT * FROM users WHERE name = ? OR email = ?';
+
+    db.query(query, [username, email], (err, results) => {
+      if (err) {
+        res.status(500).send('Erreur lors de la vérification de l\'existence de l\'utilisateur');
+      } else {
+        if (results.length > 0) {
+          res.status(200).send('Un utilisateur avec ce nom ou cet email existe déjà');
+        } else {
+          const query = 'INSERT INTO users (name, email, password, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())';
+
+          db.query(query, [username, email, password], (err, results) => {
+            if (err) {
+              res.status(500).send('Erreur lors de la création du compte');
+            } else {
+              res.status(201).json(results);
+            }
+          });
+        }
       }
     });
   });

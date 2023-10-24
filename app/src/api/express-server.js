@@ -14,6 +14,14 @@ class ExpressServer {
   getUsers() {
     return this.api.get("/users");
   }
+
+  signUp(username, email, password) {
+    return this.api.post("/sign-up", {
+      username: username,
+      email: email,
+      password: password
+    });
+  }
 }
 
 const expressServer = new ExpressServer();
