@@ -8,6 +8,8 @@ import './Login.css'
 import userIcon from "./assets/person.png";
 import emailIcon from "./assets/email.png";
 import passwordIcon from "./assets/password.png";
+import eyeOpenIcon from "./assets/eye-see.png";
+import eyeClosedIcon from "./assets/eye-dont-see.png";
 
 function signUpButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, username, email, password }) {
   const signUp = async (username, email, password) => {
@@ -87,10 +89,10 @@ function loginButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, u
 
 function Login({ setIsLogged }) {
   const [action, setAction] = useState("Sign Up");
-
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -105,39 +107,38 @@ function Login({ setIsLogged }) {
         <div className="inputs">
           <div className="input">
             <img src={userIcon} alt="User Icon" />
-            <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
+            <input type="text" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
           </div>
-          {
-            action === "Sign Up" ? (
-              <div className="input">
-                <img src={emailIcon} alt="Email Icon" />
-                <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
-              </div>
-            ) : null
-          }
+          {action === "Sign Up" ? (
+            <div className="input">
+              <img src={emailIcon} alt="Email Icon" />
+              <input type="text" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+            </div>
+          ) : null}
           <div className="input">
             <img src={passwordIcon} alt="Password Icon" />
-            <input type="text" placeholder="Password" onChange={(e) => setPassword(e.target.value)}/>
+            <input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <img src={showPassword ? eyeOpenIcon : eyeClosedIcon} alt="Toggle Password Visibility" onClick={() => setShowPassword(!showPassword)} width={30} height={25} />
           </div>
         </div>
-        {
-          action === "Login" ? (
-            <div className="forgot-password">Lost password? <span>Click Here!</span></div>
-          ) : null
-        }
-        {
-          showAlert ? (
-            <div style={{ display: "flex", justifyContent: "center", paddingTop: "20px" }}>
-              <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible className="col-md-10">
-                <Alert.Heading>Error while {action === "Sign Up" ? "signing up" : "logging in"} :</Alert.Heading>
-                <p>{alertMessage}</p>
-              </Alert>
-            </div>
-          ) : null
-        }
-        {
-          action === "Sign Up" ? signUpButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, username, email, password }) : loginButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, username, password })
-        }
+        {action === "Login" ? (
+          <div className="forgot-password">
+            Lost password? <span>Click Here!</span>
+          </div>
+        ) : null}
+        {showAlert ? (
+          <div style={{ display: "flex", justifyContent: "center", paddingTop: "20px" }}>
+            <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible className="col-md-10">
+              <Alert.Heading>
+                Error while {action === "Sign Up" ? "signing up" : "logging in"}:
+              </Alert.Heading>
+              <p>{alertMessage}</p>
+            </Alert>
+          </div>
+        ) : null}
+        {action === "Sign Up"
+          ? signUpButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, username, email, password })
+          : loginButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, username, password })}
       </div>
     </div>
   );
