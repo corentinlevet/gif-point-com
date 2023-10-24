@@ -22,6 +22,13 @@ class ExpressServer {
       password: password
     });
   }
+
+  logIn(username, password) {
+    return this.api.post("/log-in", {
+      username: username,
+      password: password
+    });
+  }
 }
 
 const expressServer = new ExpressServer();

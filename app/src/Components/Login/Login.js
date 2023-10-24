@@ -47,9 +47,34 @@ function signUpButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, 
   );
 }
 
-function loginButtons({ setAction, setIsLogged, username, password }) {
+function loginButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, username, password }) {
   const logIn = (username, password) => {
-    console.log("Log In, params : { username: " + username + ", password: " + password + " }");
+    if (username === "" || password === "") {
+      setShowAlert(true);
+      setAlertMessage("Please fill all the fields !");
+      return;
+    }
+
+    expressServer.logIn(username, password).then((response) => {
+      if (response.status === 200) {
+        setIsLogged(true);
+        setShowAlert(false);
+        setAlertMessage("");
+        localStorage.setItem("isLogged", 1);
+      }
+    }).catch((error) => {
+      console.log("Error : " + error);
+
+      setIsLogged(false);
+      setShowAlert(true);
+      localStorage.setItem("isLogged", 0);
+
+      if (error == "AxiosError: Request failed with status code 400") {
+        setAlertMessage("No user with this name or this password !");
+      } else {
+        setAlertMessage("Error while logging in !");
+      }
+    });
   }
 
   return (
@@ -111,7 +136,7 @@ function Login({ setIsLogged }) {
           ) : null
         }
         {
-          action === "Sign Up" ? signUpButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, username, email, password }) : loginButtons({ setAction, setIsLogged, username, password })
+          action === "Sign Up" ? signUpButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, username, email, password }) : loginButtons({ setAction, setIsLogged, setShowAlert, setAlertMessage, username, password })
         }
       </div>
     </div>

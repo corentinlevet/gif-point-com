@@ -66,6 +66,24 @@ function launchServer(db) {
     });
   });
 
+  app.post('/log-in', (req, res) => {
+    const { username, password } = req.body;
+
+    const query = 'SELECT * FROM users WHERE name = ? AND password = ?';
+
+    db.query(query, [username, password], (err, results) => {
+      if (err) {
+        res.status(500).send('Erreur lors de la vérification de l\'existence de l\'utilisateur');
+      } else {
+        if (results.length > 0) {
+          res.status(200).json(results);
+        } else {
+          res.status(400).send('Aucun utilisateur avec ce nom et ce mot de passe');
+        }
+      }
+    });
+  });
+
   app.listen(port, () => {
     console.log(`Serveur Express en cours d'exécution sur le port ${port}`);
   });
