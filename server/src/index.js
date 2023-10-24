@@ -4,6 +4,7 @@ const app = express();
 const port = 4000;
 const mysql2 = require('mysql2');
 const bodyParser = require('body-parser');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const dbConfig = {
@@ -54,7 +55,14 @@ function launchServer(db) {
         } else {
           const query = 'INSERT INTO users (name, email, password, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())';
 
-          db.query(query, [username, email, password], (err, results) => {
+          const key = process.env.HASH_KEY;
+
+          const hash = crypto.createHmac('sha256', key);
+          hash.update(password);
+
+          const newPass = hash.digest('hex');
+
+          db.query(query, [username, email, newPass], (err, results) => {
             if (err) {
               res.status(500).send('Erreur lors de la création du compte');
             } else {
@@ -69,9 +77,16 @@ function launchServer(db) {
   app.post('/log-in', (req, res) => {
     const { username, password } = req.body;
 
+    const key = process.env.HASH_KEY;
+
+    const hash = crypto.createHmac('sha256', key);
+    hash.update(password);
+
+    const newPass = hash.digest('hex');
+
     const query = 'SELECT * FROM users WHERE name = ? AND password = ?';
 
-    db.query(query, [username, password], (err, results) => {
+    db.query(query, [username, newPass], (err, results) => {
       if (err) {
         res.status(500).send('Erreur lors de la vérification de l\'existence de l\'utilisateur');
       } else {
