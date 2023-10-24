@@ -1,23 +1,25 @@
-body {
+.login-screen {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   overflow: hidden;
   background: linear-gradient(#2A00B7, #42006C);
+  display: flex;
+  justify-content: center;
 }
 
-.container {
+.login-container {
   display: flex;
   flex-direction: column;
   margin: auto;
-  margin-top: 200px;
   background: #fff;
-  padding-bottom: 30px;
   width: 600px;
+  border-radius: 20px;
+  min-height: 600px;
 }
 
-.header {
+.login-header {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,7 +87,9 @@ body {
 .submit-container {
   display: flex;
   gap: 30px;
-  margin: 60px auto;
+  margin: 20px auto;
+  margin-top: auto;
+  margin-bottom: 30px;
 }
 
 .submit {

@@ -4,11 +4,18 @@ import { Link } from 'react-router-dom';
 
 import './Navbar.css';
 
+import Button from 'react-bootstrap/Button'
+
 function Navbar() {
   const navRef = useRef(null);
 
   const showNavbar = () => {
     navRef.current.classList.toggle("responsive-nav");
+  }
+
+  const logOut = () => {
+    localStorage.setItem("isLogged", 0);
+    window.location.reload();
   }
 
   return (
@@ -23,6 +30,7 @@ function Navbar() {
         <button className="nav-btn nav-close-btn" onClick={showNavbar}>
           <FaTimes />
         </button>
+        <Button variant="danger" onClick={logOut}>Logout</Button>
       </nav>
       <button id="navBurger" className="nav-btn" onClick={showNavbar}>
         <FaBars />

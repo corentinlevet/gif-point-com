@@ -5,22 +5,20 @@ import Login from "../Login/Login";
 import Navbar from "../Navbar/Navbar";
 import Router from "../Router/Router";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(parseInt(localStorage.getItem("isLogged")));
 
   return (
-    <div>
-    {
-      isLogged ? (
-        <BrowserRouter>
-          <Navbar />
-          <Router />
-        </BrowserRouter>
-      ) : (
-        <Login setIsLogged={setIsLogged} />
-      )
-    }
-    </div>
+    isLogged ? (
+      <BrowserRouter>
+        <Navbar />
+        <Router />
+      </BrowserRouter>
+    ) : (
+      <Login setIsLogged={setIsLogged} />
+    )
   );
 }
 
