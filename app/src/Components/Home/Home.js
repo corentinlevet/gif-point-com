@@ -6,11 +6,11 @@ function Home() {
 
   useEffect(() => {
     expressServer.getUsers().then((response) => {
-        setUsers(response.data);
+      setUsers(response.data);
     }).catch((err) => {
       console.error(err);
     });
-  });
+  }, []);
 
   return (
     <div>
