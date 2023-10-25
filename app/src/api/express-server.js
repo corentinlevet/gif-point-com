@@ -29,6 +29,21 @@ class ExpressServer {
       password: password
     });
   }
+
+  saveImage(userId, imageBase64) {
+    return this.api.post("/save-image", {
+      userId: userId,
+      imageBase64: imageBase64
+    });
+  }
+
+  getMyImages(userId) {
+    return this.api.get("/get-my-images", {
+      params: {
+        userId: userId
+      }
+    });
+  }
 }
 
 const expressServer = new ExpressServer();

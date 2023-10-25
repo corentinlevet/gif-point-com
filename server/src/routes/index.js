@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
+const collectionRoutes = require('./collection');
 const loginRoutes = require('./login');
 const usersRoutes = require('./users');
 
+router.use("/", collectionRoutes);
 router.use("/", loginRoutes);
 router.use("/", usersRoutes);
 
