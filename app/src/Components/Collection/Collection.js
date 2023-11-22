@@ -54,9 +54,20 @@ function displayMyImages({ fileInputRef, myImages, setMyImages }) {
   );
 }
 
-function displayMyGIFs() {
+function displayMyGIFs({ myGIFs, setMyGIFs }) {
   return (
-    null
+    <div id="myGIFs" style={{ width: "80%", margin: "auto", marginTop: "20px" }}>
+      <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <h2>My GIFs</h2>
+      </div>
+      {
+        myGIFs.map((gif, index) =>  {
+          return (
+            <img key={index} src={gif} style={{ width: "100px", height: "100px", margin: "10px", borderRadius: "10px", objectFit: "cover" }} />
+          );
+        })
+      }
+    </div>
   );
 }
 
@@ -64,6 +75,8 @@ function Collection() {
   const fileInputRef = useRef(null);
   const [myImages, setMyImages] = useState([]);
   const [myImagesLoaded, setMyImagesLoaded] = useState(false);
+  const [myGIFs, setMyGIFs] = useState([]);
+  const [myGIFsLoaded, setMyGIFsLoaded] = useState(false);
 
   useEffect(() => {
     expressServer.getMyImages(1).then((res) => {
@@ -72,14 +85,23 @@ function Collection() {
 
       setMyImagesLoaded(true);
     });
+
+    expressServer.getMyGIFs(1).then((res) => {
+      const gifsBase64 = res.data.map((gif) => gif.base64);
+      setMyGIFs(gifsBase64);
+
+      setMyGIFsLoaded(true);
+    });
   }, []);
 
   return (
     <div>
       {
-        myImagesLoaded ? displayMyImages({ fileInputRef, myImages, setMyImages }) : null
+        myImagesLoaded && displayMyImages({ fileInputRef, myImages, setMyImages })
       }
-      {displayMyGIFs()}
+      {
+        myGIFsLoaded && displayMyGIFs({ myGIFs, setMyGIFs })
+      }
     </div>
   );
 }

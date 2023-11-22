@@ -5,6 +5,20 @@ import expressServer from '../../api/express-server';
 import './Generate.css';
 
 function displayImageToGIFModal({ isImageToGIFModalOpen, toggleImageToGIFModal, myImages, handleImageSelection }) {
+  const convertToGIF = () => {
+    const selectedImages = myImages.filter(image => image.isSelected);
+    const imagesToConvert = selectedImages.map(image => image.base64);
+    expressServer.convertToGIF(1, imagesToConvert).then((response) => {
+      if (response.status === 201) {
+        toggleImageToGIFModal();
+      } else {
+        console.log('Error converting images to GIF: ', response);
+      }
+    }).catch((error) => {
+      console.log('Error converting images to GIF: ', error);
+    });
+  }
+
   return (
     <Modal show={isImageToGIFModalOpen} onHide={toggleImageToGIFModal}>
       <Modal.Header closeButton>
@@ -21,6 +35,7 @@ function displayImageToGIFModal({ isImageToGIFModalOpen, toggleImageToGIFModal, 
         ))}
       </Modal.Body>
       <Modal.Footer>
+        <Button onClick={convertToGIF}>Convertir</Button>
         <Button onClick={toggleImageToGIFModal}>Fermer</Button>
       </Modal.Footer>
     </Modal>
