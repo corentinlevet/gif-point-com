@@ -46,7 +46,7 @@ function displayMyImages({ fileInputRef, myImages, setMyImages }) {
       {
         myImages.map((image, index) =>  {
           return (
-            <img key={index} src={image} style={{ width: "100px", height: "100px", margin: "10px", borderRadius: "10px", objectFit: "cover" }} />
+            <img key={index} src={image} style={{ width: "200px", height: "200px", margin: "20px", borderRadius: "20px", objectFit: "cover" }} />
           );
         })
       }
@@ -63,7 +63,7 @@ function displayMyGIFs({ myGIFs, setMyGIFs }) {
       {
         myGIFs.map((gif, index) =>  {
           return (
-            <img key={index} src={gif} style={{ width: "100px", height: "100px", margin: "10px", borderRadius: "10px", objectFit: "cover" }} />
+            <img key={index} src={gif} style={{ width: "200px", height: "200px", margin: "20px", borderRadius: "20px", objectFit: "cover" }} />
           );
         })
       }
