@@ -1,0 +1,22 @@
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-container img {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.image-container .select-circle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: green;
+}

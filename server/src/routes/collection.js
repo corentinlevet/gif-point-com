@@ -72,4 +72,33 @@ router.get('/get-my-images', (req, res) => {
   });
 });
 
+router.get('/get-my-gifs', (req, res) => {
+  const { userId } = req.query;
+
+  if (!userId) {
+    res.status(400).send('Erreur lors de la récupération des GIFs');
+    return;
+  }
+
+  const db = require('../db-config');
+
+  const query = 'SELECT * FROM gifs WHERE user_id = ?';
+
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      res.status(500).send('Erreur lors de la récupération des GIFs');
+    } else {
+      const gifs = results.map((gif) => {
+        const base64 = Buffer.from(gif.base64).toString();
+        return {
+          ...gif,
+          base64,
+        };
+      });
+
+      res.status(200).json(gifs);
+    }
+  });
+});
+
 module.exports = router;

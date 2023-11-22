@@ -18,19 +18,21 @@ function displayMyImages({ fileInputRef, myImages, setMyImages }) {
   };
 
   const handleFileUpload = async (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile && selectedFile.name.endsWith(".png")) {
-      const newImg = URL.createObjectURL(selectedFile);
-      setMyImages([...myImages, newImg]);
+    const selectedFiles = e.target.files;
+    for (const file of selectedFiles) {
+      if (file && (file.name.endsWith(".png") || file.name.endsWith(".jpg"))) {
+        const newImg = URL.createObjectURL(file);
+        setMyImages([...myImages, newImg]);
 
-      try {
-        const base64 = await blobToBase64(selectedFile);
-        expressServer.saveImage(1, base64);
-      } catch (e) {
-        console.log("Error saving image: ", e);
+        try {
+          const base64 = await blobToBase64(file);
+          expressServer.saveImage(1, base64);
+        } catch (e) {
+          console.log("Error saving image: ", e);
+        }
+      } else {
+        alert("Sélectionnez un fichier .png ou .jpg valide.");
       }
-    } else {
-      alert("Sélectionnez un fichier .png valide.");
     }
   };
 
@@ -38,7 +40,7 @@ function displayMyImages({ fileInputRef, myImages, setMyImages }) {
     <div id="myImages" style={{ width: "80%", margin: "auto", marginTop: "20px" }}>
       <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
         <h2>My Images</h2>
-        <input type="file" accept=".png" onChange={handleFileUpload} style={{ display: "none" }} ref={fileInputRef} />
+        <input type="file" multiple accept=".png, .jpg" onChange={handleFileUpload} style={{ display: "none" }} ref={fileInputRef} />
         <Button className="add-button" style={{ marginLeft: "20px" }} onClick={openFileUpload(fileInputRef)}>+</Button>
       </div>
       {
@@ -52,9 +54,20 @@ function displayMyImages({ fileInputRef, myImages, setMyImages }) {
   );
 }
 
-function displayMyGIFs() {
+function displayMyGIFs({ myGIFs, setMyGIFs }) {
   return (
-    null
+    <div id="myGIFs" style={{ width: "80%", margin: "auto", marginTop: "20px" }}>
+      <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
+        <h2>My GIFs</h2>
+      </div>
+      {
+        myGIFs.map((gif, index) =>  {
+          return (
+            <img key={index} src={gif} style={{ width: "100px", height: "100px", margin: "10px", borderRadius: "10px", objectFit: "cover" }} />
+          );
+        })
+      }
+    </div>
   );
 }
 
@@ -62,6 +75,8 @@ function Collection() {
   const fileInputRef = useRef(null);
   const [myImages, setMyImages] = useState([]);
   const [myImagesLoaded, setMyImagesLoaded] = useState(false);
+  const [myGIFs, setMyGIFs] = useState([]);
+  const [myGIFsLoaded, setMyGIFsLoaded] = useState(false);
 
   useEffect(() => {
     expressServer.getMyImages(1).then((res) => {
@@ -70,14 +85,23 @@ function Collection() {
 
       setMyImagesLoaded(true);
     });
+
+    expressServer.getMyGIFs(1).then((res) => {
+      const gifsBase64 = res.data.map((gif) => gif.base64);
+      setMyGIFs(gifsBase64);
+
+      setMyGIFsLoaded(true);
+    });
   }, []);
 
   return (
     <div>
       {
-        myImagesLoaded ? displayMyImages({ fileInputRef, myImages, setMyImages }) : null
+        myImagesLoaded && displayMyImages({ fileInputRef, myImages, setMyImages })
       }
-      {displayMyGIFs()}
+      {
+        myGIFsLoaded && displayMyGIFs({ myGIFs, setMyGIFs })
+      }
     </div>
   );
 }

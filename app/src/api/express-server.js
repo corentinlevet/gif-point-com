@@ -44,6 +44,23 @@ class ExpressServer {
       }
     });
   }
+
+  getMyGIFs(userId) {
+    return this.api.get("/get-my-gifs", {
+      params: {
+        userId: userId
+      }
+    });
+  }
+
+  async convertToGIF(userId, images) {
+    const res = await this.api.post("/convert-to-gif", {
+      userId: userId,
+      images: images
+    });
+
+    return res;
+  }
 }
 
 const expressServer = new ExpressServer();

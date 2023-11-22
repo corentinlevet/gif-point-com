@@ -24,3 +24,13 @@ CREATE TABLE IF NOT EXISTS `images` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+/* Créer une table "gifs" */
+CREATE TABLE IF NOT EXISTS `gifs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `base64` LONGBLOB NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
