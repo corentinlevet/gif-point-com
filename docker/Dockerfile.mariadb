@@ -1,3 +1,8 @@
+# Image de base
 FROM mariadb:latest
 
+# Copie du fichier d'initialisation SQL dans le répertoire d'initialisation de la base de données
 COPY ./docker/mariadb/init.sql /docker-entrypoint-initdb.d/
+
+# Définition du répertoire de travail
+WORKDIR /app
