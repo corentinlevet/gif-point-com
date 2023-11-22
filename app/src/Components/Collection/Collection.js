@@ -20,7 +20,7 @@ function displayMyImages({ fileInputRef, myImages, setMyImages }) {
   const handleFileUpload = async (e) => {
     const selectedFiles = e.target.files;
     for (const file of selectedFiles) {
-      if (file && file.name.endsWith(".png")) {
+      if (file && (file.name.endsWith(".png") || file.name.endsWith(".jpg"))) {
         const newImg = URL.createObjectURL(file);
         setMyImages([...myImages, newImg]);
 
@@ -31,7 +31,7 @@ function displayMyImages({ fileInputRef, myImages, setMyImages }) {
           console.log("Error saving image: ", e);
         }
       } else {
-        alert("Sélectionnez un fichier .png valide.");
+        alert("Sélectionnez un fichier .png ou .jpg valide.");
       }
     }
   };
@@ -40,7 +40,7 @@ function displayMyImages({ fileInputRef, myImages, setMyImages }) {
     <div id="myImages" style={{ width: "80%", margin: "auto", marginTop: "20px" }}>
       <div style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
         <h2>My Images</h2>
-        <input type="file" multiple accept=".png" onChange={handleFileUpload} style={{ display: "none" }} ref={fileInputRef} />
+        <input type="file" multiple accept=".png, .jpg" onChange={handleFileUpload} style={{ display: "none" }} ref={fileInputRef} />
         <Button className="add-button" style={{ marginLeft: "20px" }} onClick={openFileUpload(fileInputRef)}>+</Button>
       </div>
       {
