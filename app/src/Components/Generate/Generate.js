@@ -12,8 +12,11 @@ function displayImageToGIFModal({ isImageToGIFModalOpen, toggleImageToGIFModal, 
       </Modal.Header>
       <Modal.Body>
         {myImages.map((image, index) => (
-          <div key={index} className={image.isSelected ? 'selected-image' : 'image'}>
+          <div key={index} className='image-container'>
             <img src={image.base64} alt={`Image ${index}`} onClick={() => handleImageSelection(index)} />
+            {image.isSelected && (
+              <div className='select-circle' />
+            )}
           </div>
         ))}
       </Modal.Body>
@@ -37,6 +40,9 @@ function Generate() {
 
   const toggleImageToGIFModal = () => {
     setIsImageToGIFModalOpen(!isImageToGIFModalOpen);
+    const updatedImages = [...myImages];
+    updatedImages.forEach(image => image.isSelected = false);
+    setMyImages(updatedImages);
   }
 
   const handleImageSelection = (index) => {

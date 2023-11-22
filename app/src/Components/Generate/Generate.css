@@ -1,24 +1,22 @@
-/* Styles for selected images */
-.selected-image {
+.image-container {
+  position: relative;
   display: inline-block;
+}
+
+.image-container img {
+  width: 100px;
+  height: 100px;
   margin: 10px;
-  border: 2px solid green; /* Bordure verte pour les images sélectionnées */
-  border-radius: 50%; /* Pour créer un cercle */
-  background-color: green; /* Couleur de fond verte pour les images sélectionnées */
+  border-radius: 10px;
+  object-fit: cover;
 }
 
-.selected-image img {
-  width: 100px; /* Ajustez la taille de l'image sélectionnée selon vos besoins */
-  height: 100px; /* Ajustez la taille de l'image sélectionnée selon vos besoins */
-}
-
-/* Styles for non-selected images */
-.image {
-  display: inline-block;
-  margin: 10px;
-}
-
-.image img {
-  width: 100px; /* Ajustez la taille de l'image non sélectionnée selon vos besoins */
-  height: 100px; /* Ajustez la taille de l'image non sélectionnée selon vos besoins */
+.image-container .select-circle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: green;
 }
