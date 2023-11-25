@@ -8,7 +8,7 @@ import Router from "../Router/Router";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [isLogged, setIsLogged] = useState(parseInt(localStorage.getItem("isLogged")));
+  const [isLogged, setIsLogged] = useState(parseInt(localStorage.getItem("isLogged") || 0));
 
   return (
     isLogged ? (
