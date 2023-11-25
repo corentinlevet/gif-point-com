@@ -24,7 +24,7 @@ function Navbar() {
 
       <nav id="navBar" ref={navRef}>
         <Link to="/">Home</Link>
-        <Link to="/generate">Generate a GIF</Link>
+        <Link to="/generate">Generate GIF/images</Link>
         <Link to="/collection">View collection</Link>
         <Link to="/about">About us</Link>
         <button className="nav-btn nav-close-btn" onClick={showNavbar}>
