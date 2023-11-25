@@ -18,12 +18,13 @@ The aim of this project is to create a React application that transforms multipl
 ## Requirements
 For this project you will need at least on your computer:
 
-> If you want to use the provided Docker:
+> If you want to use the provided Docker installation
 - [Docker](https://docs.docker.com/engine/install/)
 - [Docker compose](https://docs.docker.com/compose/install/)
 
 > If you want to use your local dependecies
 - [Node.js](https://nodejs.org/en) v20.8.0
+- [MariaDB](https://mariadb.org/download/) (latest version)
 
 ## Launch the project
 There are two ways to launch the project:
@@ -32,23 +33,31 @@ There are two ways to launch the project:
 
 First, build the containers using:
 ```bash
-docker compose up --build
+docker compose build
 ```
 
-Once the containers are up, you can attach to the application container using:
+Once the containers are built, you can run the project by using:
 
 ```bash
-docker attach react-app
+docker compose up -d
 ```
+
+Now you should be able to access the project on [localhost:3000](http://localhost:3000) !
 
 > Using your local installation
 
-Run the installation process using:
+- For the application:
 ```bash
+cd app
 npm install
-```
-
-Then, you just need to run the command:
-```bash
 npm start
 ```
+
+- For the server:
+```bash
+cd server
+npm install
+npm start
+```
+
+Now you should be able to access the project on [localhost:3000](http://localhost:3000) !
