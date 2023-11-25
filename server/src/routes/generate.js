@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { createCanvas, loadImage } = require('canvas');
 const GIFencoder = require('gifencoder');
+const GIFframes = require('gif-frames');
 
 function saveGif({ res, userId, gifBase64 }) {
   const db = require('../db-config');
@@ -89,6 +90,76 @@ router.post('/convert-to-gif', async (req, res) => {
   }
 
   convertToGIF({ res, userId, images });
+});
+
+function saveImages({ res, userId, images }) {
+  const db = require('../db-config');
+
+  const query = 'INSERT INTO images (base64, user_id, created_at, updated_at) VALUES (?, ?, NOW(), NOW())';
+
+  images.forEach(image => {
+    db.query(query, [image, userId], (err, results) => {
+      if (err) {
+        console.log('Error saving image: ', err);
+        res.status(500).send('Erreur lors de la sauvegarde de l\'image');
+      }
+    });
+  });
+
+  res.status(201).json({ message: 'Images sauvegardées' });
+}
+
+async function convertToImage({ res, userId, gifToConvert }) {
+  const db = require('../db-config');
+
+  const gif = gifToConvert;
+
+  const query = 'SELECT * FROM users WHERE id = ?';
+
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      res.status(500).send('Erreur lors de la vérification de l\'existence de l\'utilisateur');
+      return;
+    }
+
+    if (results.length === 0) {
+      res.status(200).send('Cet utilisateur n\'existe pas');
+      return;
+    }
+
+    const images = [];
+
+    GIFframes({ url: gif, frames: "all", outputType: 'jpg' }).then((frameData) => {
+      frameData.forEach((frame) => {
+        const imageBuffer = frame.getImage()._obj;
+        const base64 = "data:image/jpeg;base64," + imageBuffer.toString('base64');
+
+        images.push(base64);
+      });
+
+      console.log('images: ', images);
+
+      saveImages({ res, userId, images });
+    });
+  });
+}
+
+router.post('/convert-to-image', async (req, res) => {
+  const { userId, gif } = req.body;
+
+  if (!userId || !gif) {
+    res.status(400).send('Erreur lors de la conversion des GIFs');
+    return;
+  }
+
+  if (gif.length > 1) {
+    res.status(400).send('Erreur lors de la conversion des GIFs');
+    return;
+  }
+
+  const gifToConvert = gif[0];
+
+  convertToImage({ res, userId, gifToConvert });
 });
 
 module.exports = router;

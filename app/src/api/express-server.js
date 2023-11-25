@@ -61,6 +61,15 @@ class ExpressServer {
 
     return res;
   }
+
+  async convertToImage(userId, gif) {
+    const res = await this.api.post("/convert-to-image", {
+      userId: userId,
+      gif: gif
+    });
+
+    return res;
+  }
 }
 
 const expressServer = new ExpressServer();
